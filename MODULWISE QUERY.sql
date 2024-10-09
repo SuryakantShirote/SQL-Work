@@ -1,7 +1,7 @@
      create database mudulwise
      use mudulwise
  /*  Problem Statement: Consider yourself to be Sam and you have been given the below tasks to
-     complete using the Table – STUDIES, SOFTWARE & PROGRAMMER */
+     complete using the Table â€“ STUDIES, SOFTWARE & PROGRAMMER */
 -- Studies Table
 CREATE TABLE Studies (PNAME varchar(20), INSTITUTE varchar(20), COURSE varchar(20), COURSE_FEE int )
 -- Insertion
@@ -147,14 +147,11 @@ select * from Programmer
 --6. Display the Number of Packages sold by Each Programmer. 
      Select PNAME , SUM(SOLD) as NO_OF_SOLD_PACKEGES  From Software GROUP BY PNAME ;;
 	
---7. Display each programmer’s name, costliest and cheapest Packages Developed by him or her. 
+--7. Display each programmerâ€™s name, costliest and cheapest Packages Developed by him or her. 
      Select PNAME as PROGRAMMER_NAME , MAX(DCOST) as COSTLIEST_PACKAGE ,
 	 MIN(DCOST) as CHEAPEST_PACKAGE 
 	 from Software GROUP BY PNAME ;
 
-
-	
- 
 --8. Display each institute name with number of Courses, Average Cost per Course.
      Select INSTITUTE as  INSTITUTE_NAME , COUNT(COURSE) as NO_OF_COURSES ,
 	 AVG(COURSE_FEE) as AVG_COST_PERCOURSE
@@ -169,27 +166,22 @@ select * from Programmer
 	 SOFTWARE.PNAME = STUDIES.PNAME;
 --OR
      SELECT PNAME,INSTITUTE from studies WHERE PNAME IN (SELECT PNAME from software);
-
-
-
-
-
-
 	 
 /*11.How many packages were developed by students, who studied in institute that charge the
-     lowest course fee?*/	     SELECT PNAME, COUNT(TITLE) FROM software WHERE PNAME IN
+     lowest course fee?*/
+	 
+    SELECT PNAME, COUNT(TITLE) FROM software WHERE PNAME IN
     (
     SELECT PNAME FROM studies WHERE INSTITUTE =
    (SELECT DISTINCT INSTITUTE FROM studies WHERE COURSE_FEE = 
    (SELECT MIN(COURSE_FEE) FROM Studies))
    )
-    GROUP BY PNAME;--12.What is the AVG salary for those whose software sales is more than 50,000/-.
+    GROUP BY PNAME;
+
+--12.What is the AVG salary for those whose software sales is more than 50,000/-.
     Select AVG(SALARY) AS AVG_SALARY  From PROGRAMMER AS P
 	INNER JOIN SOFTWARE AS S ON P.PNAME = S.PNAME 
 	WHERE(SCOST*SOLD) > 50000;
-
-
-
 
 --13.Which language listed in prof1, prof2 has not been used to develop any package	
 	 Select  DISTINCT PROF1 From PROGRAMMER Where 
@@ -198,8 +190,6 @@ select * from Programmer
 	 Select DISTINCT PROF2 From PROGRAMMER Where
 	 PROF2 NOT IN (Select DEVELOPIN From SOFTWARE ) ;
 	 
-
-
 --14. Display the total sales value of the software, institute wise.
       SELECT SUM(SCOST*SOLD) AS SALES , INSTITUTE FROM SOFTWARE INNER JOIN STUDIES 
 	  ON SOFTWARE.PNAME = STUDIES.PNAME GROUP BY INSTITUTE;
@@ -233,9 +223,7 @@ select * from Programmer
 
       SELECT PRs, sCNT FROM #PsCNT WHERE sCNT = 
       (SELECT MAX(sCNT) FROM #PsCNT)
-
-
-	 
+ 
 --18. Who is the Author of the Costliest Package?
       Select PNAME , SCOST  from  Software where 
 	  SCOST = (Select MAX(SCOST) from Software);
@@ -258,23 +246,17 @@ select * from Programmer
       Select DEVELOPIN, COUNT(TITLE) AS NO_OF_PKGS From software 
       Where DEVELOPIN NOT IN ('C','CPP') GROUP BY DEVELOPIN;
 
-
-
-
-
 -- 23.Display AVG Difference between SCOST, DCOST for Each Package.
       Select TITLE , AVG(DCOST) AS AVGDCOST, AVG(SCOST) AS AVGSCOST,
 	  AVG(DCOST-SCOST) AS AVG_DIFFERENCE  FROM Software 
 	  GROUP BY TITLE;
 	  
-
 /*24. Display the total SCOST, DCOST and amount to Be Recovered for each Programmer for
       Those Whose Cost has not yet been Recovered.*/
 	  Select PNAME ,SUM(SCOST*SOLD) AS TOTAL_SCOST , SUM(DCOST) AS TOTAL_DCOST ,
 	  SUM((SOLD*SCOST)-DCOST) AS AMOUNT_TOBE_RECOVERED from software 
 	  GROUP BY PNAME 
 	  HAVING  SUM(DCOST) > SUM(SOLD*SCOST);
-
 
 --25. Who is the Highest Paid C Programmers?
       Select * from Programmer
@@ -288,11 +270,8 @@ select * from Programmer
 	  AND GENDER = 'F';
 --OR
 
-	  Select TOP 1 * From programmer Where 'COBOL' IN (PROF1,PROF2) AND GENDER='F'
+      Select TOP 1 * From programmer Where 'COBOL' IN (PROF1,PROF2) AND GENDER='F'
       ORDER BY SALARY DESC;
-
-
-
 
 
 
@@ -309,15 +288,7 @@ select * from Programmer
       WHERE DEVELOPIN='DBASE' AND GENDER='M' AND SW.PNAME = PG.PNAME 
       AND INSTITUTE = INS AND CNT= (SELECT MAX(CNT) FROM #INST)
 
-
-
-
-
-
-
-
-
---2. In which language are most of the programmer’s proficient?
+--2. In which language are most of the programmerâ€™s proficient?
      CREATE TABLE #PCNT (PR VARCHAR(20), CNT INT)
      CREATE TABLE #PsCNT (PRs VARCHAR(20), sCNT INT)
 
@@ -330,6 +301,7 @@ select * from Programmer
 
      SELECT PRs, sCNT FROM #PsCNT WHERE sCNT = 
     (SELECT MAX(sCNT) FROM #PsCNT)
+		  
 --3.In which month did the most number of programmers join?
     CREATE TABLE #MNTH (DOJ INT, CNT INT)  
 
@@ -338,7 +310,6 @@ select * from Programmer
 
     SELECT DOJ AS MONTH_OF_DOJ,CNT AS_THE_NO_OF_STD FROM #MNTH 
     WHERE CNT IN (SELECT MAX(CNT) FROM #MNTH)
-
 
 --4.In which year was the most number of Programmers born.
     CREATE TABLE #YEAR (DOB INT, CNT INT)  
@@ -358,7 +329,6 @@ select * from Programmer
     SELECT PSNAME AS PROGRAMMER , CNT AS NO_OF_PKGS FROM #PS 
     WHERE CNT IN (SELECT MAX(CNT) FROM #PS)
 
-
 --6. Which language was used to develop the most number of Packages.
      CREATE TABLE #DEVCNT (LANG VARCHAR(20), CNT INT)
 
@@ -377,9 +347,6 @@ select * from Programmer
     SELECT CRS,CNT FROM #AVGCNT WHERE CNT <=
     (SELECT AVG(CNT) FROM #AVGCNT)
 
-
-
-
 --8.Which course has been done by the most of the Students?
     CREATE TABLE #ST (CRSE VARCHAR(20) , CNT INT)  
 
@@ -389,7 +356,6 @@ select * from Programmer
     SELECT CRSE AS COURSE , CNT AS NO_OF_STDS FROM #ST
     WHERE CNT IN (SELECT MAX(CNT) FROM #ST)
 
-
 --9.Which Institute has the most number of Students?
     CREATE TABLE #INSTITUTE (INS VARCHAR(20), CNT INT)
 
@@ -398,8 +364,6 @@ select * from Programmer
 
     SELECT INS AS INSTITUTE , CNT AS NO_OF_STDS FROM  #INSTITUTE
     WHERE CNT IN (SELECT MAX(CNT) FROM #INSTITUTE)
-
-
 
 --10. Who is the Above Programmer Referred in 50?
       CREATE TABLE #PSLang(PROF VARCHAR(20))    
@@ -417,8 +381,6 @@ select * from Programmer
 
       SELECT PNAME, PROF FROM programmer INNER JOIN #PSLang ON
       PROF=PROF1 OR PROF=PROF2
-
-
 
 --11. Display the names of the highest paid programmers for each Language
       CREATE TABLE #PLangSal(PROF VARCHAR(20), SAL INT)
@@ -490,7 +452,6 @@ select * from Programmer
 	 DCOST = (SELECT MIN(DCOST) From  Software );
 	 
 
-
 --MODULE 4 FUNCTIONS ASSIGNMENT
 
 --1 What is the Highest Number of copies sold by a Package?
@@ -504,7 +465,6 @@ select * from Programmer
     where GENDER = 'M';
 --OR
 	Select MAX(DATEDIFF(YY,DOB,GETDATE())) From programmer Where GENDER='M';
-
 
 
 --4 What is the AVG age of Female Programmers?
@@ -611,13 +571,6 @@ select * from Programmer
 	 AND (PROF1 NOT IN ('C', 'C++',  'ORACLE' , 'DBASE')
 	 AND PROF2 NOT IN ('C', 'C++',  'ORACLE' , 'DBASE'));
 
-
-
-
-
-
-
-
 --22 Who is the Youngest Programmer knowing DBASE?
      Select PNAME,DOB, YEAR(GETDATE()) - YEAR(DOB) AS AGE  From PROGRAMMER
 	 Where  YEAR(GETDATE()) - YEAR(DOB) = (SELECT MIN(YEAR(GETDATE()) - YEAR(DOB))
@@ -659,9 +612,6 @@ select * from Programmer
 	 SELECT PNAME, DATEDIFF(YY,DOJ,GETDATE()) AS EXPRNCE FROM programmer
      WHERE DATEDIFF(YY,DOJ,GETDATE()) = (SELECT MIN(DATEDIFF(YY,DOJ,GETDATE()))
 	 FROM programmer);
-
-
-
 	 
 /*26 Display the Number of Packages in Each Language for which Development Cost is less
      than 1000.*/
@@ -675,7 +625,7 @@ select * from Programmer
 	 where SALARY > 2000;
 
 --MODULE 5 OPTIMISATION AND PERFORMANCE ASSIGNMENT
---1. How many Programmers Don’t know PASCAL and C
+--1. How many Programmers Donâ€™t know PASCAL and C
      CREATE VIEW PR
 	 AS
 	 SELECT PNAME ,PROF1 , PROF2 FROM PROGRAMMER WHERE PNAME IN 
@@ -684,10 +634,7 @@ select * from Programmer
 	 
 	 SELECT *  FROM  PR;
 
-	
-
-
---2. Display the details of those who don’t know Clipper, COBOL or PASCAL.
+--2. Display the details of those who donâ€™t know Clipper, COBOL or PASCAL.
      CREATE VIEW PR1
 	 AS
 	 SELECT PNAME ,PROF1 ,PROF2,DOB,DOJ,SALARY FROM PROGRAMMER WHERE PNAME IN 
@@ -704,9 +651,6 @@ select * from Programmer
 	   SELECT * FROM T13 WHERE 
 	   PROF1 NOT IN ('CLIPPER', 'COBOL' , 'PASCAL')
 	   AND PROF2 NOT IN  ('CLIPPER', 'COBOL' , 'PASCAL');
-
-
-
 
 /*3. Display each language name with AVG Development Cost, AVG Selling Cost and AVG Price
      per Copy.*/
@@ -749,14 +693,6 @@ select * from Programmer
 
      SELECT * FROM VI;
 
-
-	
-
-
-
-
-
-
 --6. How many packages are developed by the most experienced programmer form BDPS.  
 	 SELECT PNAME, COUNT(TITLE) FROM software WHERE PNAME IN
     (
@@ -776,10 +712,6 @@ select * from Programmer
 
 	 SELECT * FROM V4;
 	 
-	
-
-
-
 ./*8. How much does the person who developed the highest selling package earn and what course
       did HE/SHE undergo.*/
 	  CREATE VIEW V5
@@ -801,12 +733,6 @@ select * from Programmer
 	  SELECT * FROM T11 WHERE SALARY = (SELECT MAX(SALARY) FROM PROGRAMMER) AND 
 	  SOLD =(SELECT MAX(SOLD) FROM SOFTWARE);
 
-	 
-
-
-
-
-
 --9. In which institute did the person who developed the costliest package study?
      CREATE VIEW V6   
 	 AS
@@ -822,11 +748,6 @@ select * from Programmer
 	 AS( SELECT INSTITUTE , DCOST,ST.PNAME FROM STUDIES AS ST INNER JOIN SOFTWARE AS S ON
 	 ST.PNAME = S.PNAME GROUP BY INSTITUTE , DCOST,ST.PNAME)
 	 SELECT * FROM T10 WHERE DCOST IN  (SELECT MAX(DCOST) FROM SOFTWARE);
-
-
-	
-
-
 
 --10.Display the names of the programmers who have not developed any packages.
      CREATE VIEW V7
@@ -873,7 +794,10 @@ select * from Programmer
 	 
 	 
 /*13. Display the number of packages, No. of Copies Sold and sales value of each programmer
-      institute wise.*/	  CREATE VIEW V10          	  AS	  SELECT INSTITUTE, COUNT(SW.TITLE) AS PKGCNT, sum(SW.SOLD) AS SALESCNT, SUM(SCOST*SOLD) AS SALVAL
+      institute wise.*/
+	  CREATE VIEW V10          
+	  AS
+	  SELECT INSTITUTE, COUNT(SW.TITLE) AS PKGCNT, sum(SW.SOLD) AS SALESCNT, SUM(SCOST*SOLD) AS SALVAL
       FROM software AS SW, studies AS ST 
       WHERE SW.PNAME=ST.PNAME
       GROUP BY INSTITUTE 
@@ -1071,7 +995,7 @@ select * from Programmer
 
 
 
---2. In which language are most of the programmer’s proficient?
+--2. In which language are most of the programmerâ€™s proficient?
 CREATE TABLE #PCNT (PR VARCHAR(20), CNT INT)
 CREATE TABLE #PsCNT (PRs VARCHAR(20), sCNT INT)
 
@@ -1142,24 +1066,6 @@ SELECT PR, SUM(CNT) FROM #PCN GROUP BY PR
   WHERE DEVELOPIN='DBASE' AND GENDER='M' AND SW.PNAME = PG.PNAME 
   AND INSTITUTE = INS AND CNT= (SELECT MAX(CNT) FROM #INST )
 
-
-
-  SELECT * FROM Software
-
-
-
-
-
-
-
-
-
-
-
-
-
-SELECT * FROM SOFTWARE
-
 --7. Which course has below average number of Students?
      CREATE TABLE #AVGCNT (CRS VARCHAR(20), CNT INT)
 
@@ -1205,18 +1111,8 @@ SELECT * FROM SOFTWARE
      INSERT INTO #PsCNTT
      SELECT PR, SUM(CNT) FROM #PCNTT GROUP BY PR
 
-
-
-
-
-	 SELECT * FROM PROGRAMMER
-
-
-SELECT PRs, sCNT FROM #PsCNT WHERE sCNT = 
-(SELECT MAX(sCNT) FROM #PsCNT)
-
-
-
+     SELECT PRs, sCNT FROM #PsCNT WHERE sCNT = 
+     (SELECT MAX(sCNT) FROM #PsCNT)
 
 --61. Which course has below AVG number of Students?
 CREATE TABLE #AVGCNT (CRS VARCHAR(20), CNT INT)
@@ -1228,7 +1124,7 @@ SELECT CRS,CNT FROM #AVGCNT WHERE CNT <=
 (SELECT AVG(CNT) FROM #AVGCNT)
 
 
---QUERY 78. In which language are most of the programmer’s proficient.
+--QUERY 78. In which language are most of the programmerâ€™s proficient.
 CREATE TABLE #PCNT (PR VARCHAR(20), CNT INT)
 CREATE TABLE #PsCNT (PRs VARCHAR(20), sCNT INT)
 
@@ -1244,6 +1140,7 @@ SELECT PRs, sCNT FROM #PsCNT WHERE sCNT =
 
 
 --QUERY 88. Display the details of the software developed in DBASE by Male Programmers, who belong to the institute in which most number of Programmers studied.
+
 CREATE TABLE #INST (INS VARCHAR(20), CNT INT)
 
 INSERT INTO #INST
@@ -1256,5 +1153,6 @@ AND INSTITUTE = INS AND CNT= (SELECT MAX(CNT) FROM #INST)
 
 --QUERY 90. Display the details of the software that has developed in the language
 --         which is neither the first nor the second proficiency of the programmers.
+
 SELECT SW.*,PG.PROF1,PG.PROF2 from Software AS SW, programmer AS PG 
 WHERE PG.PROF1 <> SW.DEVELOPIN AND PG.PROF2 <> SW.DEVELOPIN AND PG.PNAME = SW.PNAME
