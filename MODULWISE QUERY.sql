@@ -108,11 +108,6 @@ select * from Programmer
       Development cost? */
 	  Select PNAME,TITLE from Software where SOLD*SCOST > 2*DCOST;
 	  
-
-
-
-
-
 --MODULE 2 OPERATORS AND CLAUSES ASSIGNMENT 
 
 --1. What is the cost of the costliest software development in Basic?
